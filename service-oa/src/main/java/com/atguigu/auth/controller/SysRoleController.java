@@ -12,7 +12,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,11 +27,6 @@ public class SysRoleController {
     @ApiOperation(value = "获取全部角色列表")
     @GetMapping("findAll")
     public Result<List<SysRole>> findAll() {
-        try {
-            int i = 10/0;
-        } catch (Exception e) {
-            throw new GuiguException(500, "执行了自定义异常");
-        }
         List<SysRole> roleList = sysRoleService.list();
         return Result.ok(roleList);
     }
