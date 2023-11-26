@@ -123,6 +123,9 @@ export default {
         this.fetchData()
         this.$message.success(response.message)
       })
+    },
+    showAssignAuth(row) {
+      this.$router.push('/system/assignAuth?id=' + row.id + '&roleName=' + row.roleName)
     }
   }
 }
@@ -173,6 +176,7 @@ export default {
         <template slot-scope="scope">
           <el-button type="primary" icon="el-icon-edit" size="mini" @click="edit(scope.row.id)" title="修改"/>
           <el-button type="danger" icon="el-icon-delete" size="mini" @click="removeDataById(scope.row.id)" title="删除"/>
+          <el-button type="warning" icon="el-icon-baseball" size="mini" @click="showAssignAuth(scope.row)" title="分配权限"/>
         </template>
       </el-table-column>
     </el-table>
