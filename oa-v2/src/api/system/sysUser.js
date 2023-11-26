@@ -1,26 +1,20 @@
-/*
-角色管理相关的API请求函数
-*/
 import request from '@/utils/request'
 
-const api_name = '/admin/system/sysRole'
+const api_name = '/admin/system/sysUser'
 
 export default {
-  /*
-    获取角色分页列表(带搜索)
-  */
+
   getPageList(page, limit, searchObj) {
     return request({
       url: `${api_name}/${page}/${limit}`,
       method: 'get',
-      params: searchObj
+      params: searchObj // url查询字符串或表单键值对
     })
   },
-
-  removeById(id) {
+  getById(id) {
     return request({
-      url: `${api_name}/remove/${id}`,
-      method: 'delete'
+      url: `${api_name}/get/${id}`,
+      method: 'get'
     })
   },
 
@@ -32,13 +26,6 @@ export default {
     })
   },
 
-  getById(id) {
-    return request({
-      url: `${api_name}/get/${id}`,
-      method: 'get'
-    })
-  },
-
   updateById(role) {
     return request({
       url: `${api_name}/update`,
@@ -46,12 +33,10 @@ export default {
       data: role
     })
   },
-
-  batchRemove(idList) {
+  removeById(id) {
     return request({
-      url: `${api_name}/batchRemove`,
-      method: `delete`,
-      data: idList
+      url: `${api_name}/remove/${id}`,
+      method: 'delete'
     })
-  },
+  }
 }
