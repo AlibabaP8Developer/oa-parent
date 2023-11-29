@@ -1,8 +1,11 @@
 server:
   port: 8800
 mybatis-plus:
+  mapper-locations: classpath*:mapper/*.xml
+  #设置别名包扫描路径，通过该属性可以给包中的类注册别名
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl # 查看日志
+    map-underscore-to-camel-case: true
 spring:
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
