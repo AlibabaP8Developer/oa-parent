@@ -203,7 +203,8 @@ export default {
 
     <!-- 工具条 -->
     <div class="tools-div">
-      <el-button type="success" icon="el-icon-plus" size="mini" @click="add()">添 加</el-button>
+      <el-button type="success" icon="el-icon-plus" size="mini" @click="add()"
+                 :disabled="$hasBP('bnt.sysMenu.add') === false">添 加</el-button>
     </div>
     <el-table
       :data="sysMenuList"
@@ -232,9 +233,9 @@ export default {
       <el-table-column prop="createTime" label="创建时间" width="160" />
       <el-table-column label="操作" width="180" align="center" fixed="right">
         <template slot-scope="scope">
-          <el-button v-if="scope.row.type !== 2" type="success" icon="el-icon-plus" size="mini" title="添加下级节点" @click="add(scope.row)" />
-          <el-button type="primary" icon="el-icon-edit" size="mini" title="修改" @click="edit(scope.row)" />
-          <el-button type="danger" icon="el-icon-delete" size="mini" title="删除" :disabled="scope.row.children.length > 0" @click="removeDataById(scope.row.id)" />
+          <el-button v-if="scope.row.type !== 2" type="success" icon="el-icon-plus" size="mini" :disabled="$hasBP('bnt.sysMenu.add') === false" title="添加下级节点" @click="add(scope.row)" />
+          <el-button type="primary" icon="el-icon-edit" size="mini" title="修改" @click="edit(scope.row)" :disabled="$hasBP('bnt.sysMenu.update') === false" />
+          <el-button type="danger" icon="el-icon-delete" size="mini" title="删除" @click="removeDataById(scope.row.id)" :disabled="$hasBP('bnt.sysMenu.remove') === false" />
         </template>
       </el-table-column>
     </el-table>
