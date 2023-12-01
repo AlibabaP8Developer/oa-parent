@@ -151,7 +151,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
                 }
             } else {
                 if (!CollectionUtils.isEmpty(children)) {
-                    if(children.size() > 0) {
+                    if (children.size() > 0) {
                         routerVo.setAlwaysShow(true);
                     }
                     // 递归
@@ -186,12 +186,21 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     @Override
     public List<String> findUserPermsByUserId(Long userId) {
         // 1.判断是否是管理员，如果是管理员，查询所有按钮列表
-
-        // 2.如果不是管理员，根据userId查询操作按钮列表
-
+        List<SysMenu> sysMenuList = null;
+        if (userId == 1) {
+            LambdaQueryWrapper<SysMenu> queryWrapper = new LambdaQueryWrapper<>();
+            queryWrapper.eq(SysMenu::getStatus, 1);
+            queryWrapper.orderByDesc(SysMenu::getSortValue);
+            sysMenuList = baseMapper.selectList(queryWrapper);
+        } else {
+            // 2.如果不是管理员，根据userId查询操作按钮列表
+            // 多表关联查询：用户角色关系表、角色菜单关系表、菜单表
+            sysMenuList = baseMapper.findMenuListByUserId(userId);
+        }
         // 3.从查询出来的数据里面，获取可以操作按钮值的list集合，返回
-
-        return null;
+        return sysMenuList.stream().filter(item -> {
+            return item.getType() == 2;
+        }).map(SysMenu::getPerms).collect(Collectors.toList());
     }
 
 }

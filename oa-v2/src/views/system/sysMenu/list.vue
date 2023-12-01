@@ -154,7 +154,6 @@ export default {
     },
 
     edit(row) {
-      // debugger
       this.dialogTitle = '修改节点'
       this.dialogVisible = true
 

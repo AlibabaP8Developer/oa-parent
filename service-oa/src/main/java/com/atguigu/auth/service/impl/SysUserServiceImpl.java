@@ -80,10 +80,10 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     @Override
     public Result info(HttpServletRequest request) {
         // 1.从请求头获取用户信息 （获取请求头token字符串）
-        String tooken = request.getHeader("header");
+        String token = request.getHeader("token");
 
         // 2.从token字符串获取用户ID 或 用户名
-        Long userId = JwtHelper.getUserId(tooken);
+        Long userId = JwtHelper.getUserId(token);
         // 3.根据用户ID查询数据库
         SysUser sysUser = this.getById(userId);
 

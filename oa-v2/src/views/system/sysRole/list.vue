@@ -38,7 +38,6 @@ export default {
     },
     // 根据id删除数据
     removeDataById(id) {
-      // debugger
       this.$confirm('此操作将永久删除该记录, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
@@ -144,7 +143,8 @@ export default {
           </el-col>
         </el-row>
         <el-row style="display:flex">
-          <el-button type="primary" icon="el-icon-search" size="mini" :loading="loading" @click="fetchData()">搜索</el-button>
+          <el-button type="primary" icon="el-icon-search" size="mini" :loading="loading" @click="fetchData()">搜索
+          </el-button>
           <el-button icon="el-icon-refresh" size="mini" @click="resetData">重置</el-button>
         </el-row>
       </el-form>
@@ -158,7 +158,7 @@ export default {
       style="width: 100%;margin-top: 10px;"
       @selection-change="handleSelectionChange">
 
-      <el-table-column type="selection" />
+      <el-table-column type="selection"/>
 
       <el-table-column
         label="序号"
@@ -169,22 +169,26 @@ export default {
         </template>
       </el-table-column>
 
-      <el-table-column prop="roleName" label="角色名称" />
-      <el-table-column prop="roleCode" label="角色编码" />
+      <el-table-column prop="roleName" label="角色名称"/>
+      <el-table-column prop="roleCode" label="角色编码"/>
       <el-table-column prop="createTime" label="创建时间" width="160"/>
       <el-table-column label="操作" width="200" align="center">
         <template slot-scope="scope">
           <el-button type="primary" icon="el-icon-edit" size="mini" @click="edit(scope.row.id)" title="修改"/>
-          <el-button type="danger" icon="el-icon-delete" size="mini" @click="removeDataById(scope.row.id)" title="删除"/>
-          <el-button type="warning" icon="el-icon-baseball" size="mini" @click="showAssignAuth(scope.row)" title="分配权限"/>
+          <el-button type="danger" icon="el-icon-delete" size="mini" @click="removeDataById(scope.row.id)"
+                     title="删除"/>
+          <el-button type="warning" icon="el-icon-baseball" size="mini" @click="showAssignAuth(scope.row)"
+                     title="分配权限"/>
         </template>
       </el-table-column>
     </el-table>
 
     <!-- 工具条 -->
     <div class="tools-div">
-      <el-button type="success" icon="el-icon-plus" size="mini" @click="add">添 加</el-button>
-      <el-button class="btn-add" size="mini" @click="batchRemove()" >批量删除</el-button>
+      <el-button type="success" icon="el-icon-plus" size="mini" @click="add"
+                 :disabled="$hasBP('bnt.sysRole.add') === false">添 加
+      </el-button>
+      <el-button class="btn-add" size="mini" @click="batchRemove()">批量删除</el-button>
     </div>
 
     <!-- 分页组件 -->
@@ -197,7 +201,7 @@ export default {
       @current-change="fetchData"
     />
 
-    <el-dialog title="添加/修改" :visible.sync="dialogVisible" width="40%" >
+    <el-dialog title="添加/修改" :visible.sync="dialogVisible" width="40%">
       <el-form ref="dataForm" :model="sysRole" label-width="150px" size="small" style="padding-right: 40px;">
         <el-form-item label="角色名称">
           <el-input v-model="sysRole.roleName"/>

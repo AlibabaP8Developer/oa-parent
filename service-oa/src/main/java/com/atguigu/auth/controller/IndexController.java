@@ -8,6 +8,7 @@ import com.atguigu.model.system.SysUser;
 import com.atguigu.vo.system.LoginVo;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -34,6 +35,7 @@ public class IndexController {
      *
      * @return
      */
+    @ApiOperation("登录接口")
     @PostMapping("login")
     public Result login(@RequestBody LoginVo loginVo) {
         return sysUserService.login(loginVo);
@@ -44,6 +46,7 @@ public class IndexController {
      *
      * @return
      */
+    @ApiOperation("获取用户信息")
     @GetMapping("info")
     public Result info(HttpServletRequest request) {
        return sysUserService.info(request);
@@ -54,6 +57,7 @@ public class IndexController {
      *
      * @return
      */
+    @ApiOperation("退出登录接口")
     @PostMapping("logout")
     public Result logout() {
         return Result.ok();
