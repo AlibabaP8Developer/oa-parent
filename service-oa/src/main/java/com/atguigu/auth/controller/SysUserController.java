@@ -84,7 +84,7 @@ public class SysUserController {
     @DeleteMapping("remove/{id}")
     public Result remove(@PathVariable Long id) {
         if (id == 1L) {
-            return Result.fail("管理员账号不允许删除");
+            return Result.fail().message("管理员账号不允许删除");
         }
         service.removeById(id);
         return Result.ok();
