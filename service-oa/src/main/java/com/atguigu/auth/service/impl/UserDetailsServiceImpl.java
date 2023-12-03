@@ -1,8 +1,6 @@
 package com.atguigu.auth.service.impl;
 
 import com.atguigu.auth.service.SysUserService;
-import com.atguigu.common.execption.GuiguException;
-import com.atguigu.common.result.ResultCodeEnum;
 import com.atguigu.model.system.SysUser;
 import com.atguigu.security.custom.CustomUser;
 import org.springframework.beans.factory.annotation.Autowired;
