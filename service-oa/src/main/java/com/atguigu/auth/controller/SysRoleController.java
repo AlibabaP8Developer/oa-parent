@@ -1,9 +1,11 @@
 package com.atguigu.auth.controller;
 
 import com.atguigu.auth.service.SysRoleService;
+import com.atguigu.auth.service.SysUserRoleService;
 import com.atguigu.common.execption.GuiguException;
 import com.atguigu.common.result.Result;
 import com.atguigu.model.system.SysRole;
+import com.atguigu.model.system.SysUserRole;
 import com.atguigu.vo.system.AssginRoleVo;
 import com.atguigu.vo.system.SysRoleQueryVo;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -26,6 +28,8 @@ public class SysRoleController {
 
     @Autowired
     private SysRoleService sysRoleService;
+    @Autowired
+    SysUserRoleService sysUserRoleService;
 
     @PreAuthorize("hasAuthority('bnt.sysRole.list')")
     @ApiOperation(value = "获取全部角色列表")
@@ -95,6 +99,12 @@ public class SysRoleController {
     @ApiOperation(value = "删除角色")
     @DeleteMapping("remove/{id}")
     public Result remove(@PathVariable Long id) {
+        LambdaQueryWrapper<SysUserRole> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(SysUserRole::getRoleId, id);
+        List<SysUserRole> list = sysUserRoleService.list(queryWrapper);
+        if (!list.isEmpty()) {
+            return Result.fail().message("该角色已分配给了用户不能删除");
+        }
         boolean isSuccess = sysRoleService.removeById(id);
         if (isSuccess) {
             return Result.ok();

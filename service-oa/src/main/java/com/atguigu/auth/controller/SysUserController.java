@@ -83,6 +83,9 @@ public class SysUserController {
     @ApiOperation(value = "删除用户")
     @DeleteMapping("remove/{id}")
     public Result remove(@PathVariable Long id) {
+        if (id == 1L) {
+            return Result.fail("管理员账号不允许删除");
+        }
         service.removeById(id);
         return Result.ok();
     }
