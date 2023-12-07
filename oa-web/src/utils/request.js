@@ -8,7 +8,8 @@ const service = axios.create({
 
 // http request 拦截器
 service.interceptors.request.use(config => {
-    let token = window.localStorage.getItem("token") || "";
+    // let token = window.localStorage.getItem("token") || "";
+    let token = window.localStorage.getItem("token") || "eyJhbGciOiJIUzUxMiIsInppcCI6IkdaSVAifQ.H4sIAAAAAAAAAKtWKi5NUrJScgwN8dANDXYNUtJRSq0oULIyNDcwNjEwNzU31VEqLU4t8kwBikGYeYm5qUAtiSm5mXlKtQB7m_qEQgAAAA.uj-IwXlt9msdP6seGxn9k7ngaDZS17Ih6M1-19CBL3uIXrWldHzkbPvcs8lfLZQMI1Pkb6LL5-wowbqPyjEPEQ";
     if (token != "") {
       config.headers["token"] = token;
     }
