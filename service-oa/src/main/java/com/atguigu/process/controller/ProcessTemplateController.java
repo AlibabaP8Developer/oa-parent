@@ -1,5 +1,6 @@
 package com.atguigu.process.controller;
 
+import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.web.bind.annotation.RestController;
@@ -12,9 +13,12 @@ import org.springframework.web.bind.annotation.RestController;
  * @author atguigu
  * @since 2023-12-07
  */
+@Api(value = "审批类型", tags = "审批类型")
 @RestController
-@RequestMapping("/process/oa-process-template")
+@RequestMapping("/admin/process/processType")
+@SuppressWarnings({"unchecked", "rawtypes"})
 public class ProcessTemplateController {
+
 
 }
 
