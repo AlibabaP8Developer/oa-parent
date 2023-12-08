@@ -68,5 +68,11 @@ public class ProcessTypeController {
         processTypeService.removeById(id);
         return Result.ok();
     }
+
+    @ApiOperation(value = "获取全部审批分类")
+    @GetMapping("findAll")
+    public Result findAll() {
+        return Result.ok(processTypeService.list());
+    }
 }
 

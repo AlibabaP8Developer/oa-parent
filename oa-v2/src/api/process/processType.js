@@ -4,6 +4,13 @@ const api_name = '/admin/process/processType'
 
 export default {
 
+  findAll() {
+    return request({
+      url: `${api_name}/findAll`,
+      method: 'get'
+    })
+  },
+
   getPageList(page, limit) {
     return request({
       url: `${api_name}/${page}/${limit}`,
