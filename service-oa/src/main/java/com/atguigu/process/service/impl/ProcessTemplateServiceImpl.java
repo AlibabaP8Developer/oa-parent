@@ -36,6 +36,7 @@ public class ProcessTemplateServiceImpl extends ServiceImpl<ProcessTemplateMappe
 
     @Override
     public IPage<ProcessTemplate> selectPage(Page<ProcessTemplate> pageParam) {
+        // 调用mapper的方法实现分页查询
         LambdaQueryWrapper<ProcessTemplate> queryWrapper = new LambdaQueryWrapper<ProcessTemplate>();
         queryWrapper.orderByDesc(ProcessTemplate::getId);
         IPage<ProcessTemplate> page = processTemplateMapper.selectPage(pageParam, queryWrapper);
@@ -43,11 +44,18 @@ public class ProcessTemplateServiceImpl extends ServiceImpl<ProcessTemplateMappe
 
         List<Long> processTypeIdList = processTemplateList.stream().map(processTemplate -> processTemplate.getProcessTypeId()).collect(Collectors.toList());
 
-        if(!CollectionUtils.isEmpty(processTypeIdList)) {
-            Map<Long, ProcessType> processTypeIdToProcessTypeMap = processTypeService.list(new LambdaQueryWrapper<ProcessType>().in(ProcessType::getId, processTypeIdList)).stream().collect(Collectors.toMap(ProcessType::getId, ProcessType -> ProcessType));
-            for(ProcessTemplate processTemplate : processTemplateList) {
-                ProcessType processType = processTypeIdToProcessTypeMap.get(processTemplate.getProcessTypeId());
-                if(null == processType) continue;
+        if (!CollectionUtils.isEmpty(processTypeIdList)) {
+            LambdaQueryWrapper<ProcessType> wrapper = new LambdaQueryWrapper<ProcessType>();
+            wrapper.in(ProcessType::getId, processTypeIdList);
+            Map<Long, ProcessType> processTypeIdToProcessTypeMap = processTypeService.list(wrapper).stream()
+                    .collect(Collectors.toMap(ProcessType::getId, ProcessType -> ProcessType));
+            // 遍历list集合，得到每个对象的审批类型ID
+            for (ProcessTemplate processTemplate : processTemplateList) {
+                // 得到每个对象的审批类型ID
+                Long processTypeId = processTemplate.getProcessTypeId();
+                // 根据审批类型ID，查询获取对应名称
+                ProcessType processType = processTypeIdToProcessTypeMap.get(processTypeId);
+                if (null == processType) continue;
                 processTemplate.setProcessTypeName(processType.getName());
             }
         }
