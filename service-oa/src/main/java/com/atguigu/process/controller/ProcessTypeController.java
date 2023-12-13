@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * <p>
  * 审批类型 前端控制器
@@ -28,6 +30,14 @@ public class ProcessTypeController {
 
     @Autowired
     private ProcessTypeService processTypeService;
+
+    // 查询所有审批分类
+    @ApiOperation(value = "获取全部审批分类")
+    @GetMapping("findAll")
+    public Result findAll() {
+        List<ProcessType> list = processTypeService.list();
+        return Result.ok(list);
+    }
 
     @ApiOperation(value = "获取分页列表")
     @GetMapping("{page}/{limit}")
@@ -69,10 +79,5 @@ public class ProcessTypeController {
         return Result.ok();
     }
 
-    @ApiOperation(value = "获取全部审批分类")
-    @GetMapping("findAll")
-    public Result findAll() {
-        return Result.ok(processTypeService.list());
-    }
 }
 

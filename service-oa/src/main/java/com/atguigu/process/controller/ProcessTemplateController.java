@@ -40,7 +40,7 @@ public class ProcessTemplateController {
     private ProcessTemplateService processTemplateService;
 
     //@PreAuthorize("hasAuthority('bnt.processTemplate.list')")
-    @ApiOperation(value = "获取分页列表")
+    @ApiOperation(value = "获取分页审批模板数据")
     @GetMapping("{page}/{limit}")
     public Result index(
             @ApiParam(name = "page", value = "当前页码", required = true)
@@ -49,7 +49,7 @@ public class ProcessTemplateController {
             @ApiParam(name = "limit", value = "每页记录数", required = true)
             @PathVariable Long limit) {
         Page<ProcessTemplate> pageParam = new Page<>(page, limit);
-        IPage<ProcessTemplate> pageModel = processTemplateService.selectPage(pageParam);
+        IPage<ProcessTemplate> pageModel = processTemplateService.selectPageProcessTemplate(pageParam);
         return Result.ok(pageModel);
     }
 
