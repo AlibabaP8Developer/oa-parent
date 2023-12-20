@@ -3,15 +3,17 @@
     <!-- 工具条 -->
     <div class="tools-div">
       <el-button type="success" icon="el-icon-plus" size="mini" @click="add()"
-                 :disabled="$hasBP('bnt.processTemplate.templateSet')  === false">添加审批设置
+                 :disabled="$hasBP('bnt.processTemplate.templateSet')  === false"
+      >添加审批设置
       </el-button>
     </div>
     <!-- 列表 -->
     <el-table v-loading="listLoading" :data="list" stripe border style="width: 100%;margin-top: 10px;">
       <el-table-column
-          label="序号"
-          width="70"
-          align="center">
+        label="序号"
+        width="70"
+        align="center"
+      >
         <template slot-scope="scope">
           {{ (page - 1) * limit + scope.$index + 1 }}
         </template>
@@ -31,24 +33,27 @@
         <template slot-scope="scope">
           <el-button type="text" size="mini" @click="show(scope.row)">查看审批设置</el-button>
           <el-button type="text" size="mini" @click="edit(scope.row.id)"
-                     :disabled="$hasBP('bnt.processTemplate.templateSet')  === false">修改审批设置
+                     :disabled="$hasBP('bnt.processTemplate.templateSet')  === false"
+          >修改审批设置
           </el-button>
           <el-button type="text" size="mini" @click="removeDataById(scope.row.id)"
-                     :disabled="$hasBP('bnt.processTemplate.remove')  === false">删除
+                     :disabled="$hasBP('bnt.processTemplate.remove')  === false"
+          >删除
           </el-button>
+          <el-button v-if="scope.row.status === 0" type="text" size="mini" @click="publish(scope.row.id)" :disabled="$hasBP('bnt.processTemplate.publish')  === false">发布</el-button>
         </template>
       </el-table-column>
     </el-table>
     <!-- 分页组件 -->
     <el-pagination
-        :current-page="page"
-        :total="total"
-        :page-size="limit"
-        :page-sizes="[5, 10, 20, 30, 40, 50, 100]"
-        style="padding: 30px 0; text-align: center;"
-        layout="sizes, prev, pager, next, jumper, ->, total, slot"
-        @current-change="fetchData"
-        @size-change="changeSize"
+      :current-page="page"
+      :total="total"
+      :page-size="limit"
+      :page-sizes="[5, 10, 20, 30, 40, 50, 100]"
+      style="padding: 30px 0; text-align: center;"
+      layout="sizes, prev, pager, next, jumper, ->, total, slot"
+      @current-change="fetchData"
+      @size-change="changeSize"
     />
 
     <el-dialog title="查看审批设置" :visible.sync="formDialogVisible" width="35%">
@@ -99,6 +104,12 @@ export default {
   mounted() {
   },
   methods: {
+    publish(id) {
+      api.publish(id).then(response => {
+        this.$message.success('发布成功')
+        this.fetchData(this.page)
+      })
+    },
     show(row) {
       this.rule = JSON.parse(row.formProps)
       this.option = JSON.parse(row.formOptions)
