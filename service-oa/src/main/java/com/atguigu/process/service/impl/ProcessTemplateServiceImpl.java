@@ -55,4 +55,14 @@ public class ProcessTemplateServiceImpl extends ServiceImpl<ProcessTemplateMappe
         }
         return processTemplatePage;
     }
+
+    @Override
+    public void publish(Long id) {
+        // 修改模板发布状态  1 已经发布
+        ProcessTemplate processTemplate = baseMapper.selectById(id);
+        processTemplate.setStatus(1);
+        baseMapper.updateById(processTemplate);
+        // TODO 流程定义不熟
+
+    }
 }

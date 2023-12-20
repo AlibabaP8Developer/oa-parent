@@ -114,5 +114,15 @@ public class ProcessTemplateController {
         map.put("processDefinitionKey", fileName.substring(0, fileName.lastIndexOf(".")));
         return Result.ok(map);
     }
+
+    // 部署流程定义（发布）
+    @PreAuthorize("hasAuthority('bnt.processTemplate.publish')")
+    @ApiOperation(value = "发布")
+    @GetMapping("/publish/{id}")
+    public Result publish(@PathVariable Long id) {
+        // 修改模板发布状态  1 已经发布
+        processTemplateService.publish(id);
+        return Result.ok();
+    }
 }
 
