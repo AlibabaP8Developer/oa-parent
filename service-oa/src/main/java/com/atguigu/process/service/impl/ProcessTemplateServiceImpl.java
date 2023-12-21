@@ -3,12 +3,15 @@ package com.atguigu.process.service.impl;
 import com.atguigu.model.process.ProcessTemplate;
 import com.atguigu.model.process.ProcessType;
 import com.atguigu.process.mapper.ProcessTemplateMapper;
+import com.atguigu.process.service.OaProcessService;
 import com.atguigu.process.service.ProcessTemplateService;
 import com.atguigu.process.service.ProcessTypeService;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -30,6 +33,9 @@ public class ProcessTemplateServiceImpl extends ServiceImpl<ProcessTemplateMappe
 
     @Resource
     private ProcessTypeService processTypeService;
+
+    @Autowired
+    private OaProcessService processService;
 
     @Override
     public IPage<ProcessTemplate> selectPageProcessTemplate(Page<ProcessTemplate> pageParam) {
@@ -63,6 +69,9 @@ public class ProcessTemplateServiceImpl extends ServiceImpl<ProcessTemplateMappe
         processTemplate.setStatus(1);
         baseMapper.updateById(processTemplate);
         // TODO 流程定义不熟
-
+        String processDefinitionPath = processTemplate.getProcessDefinitionPath();
+        if (StringUtils.isNotBlank(processDefinitionPath)) {
+            processService.deployByZip(processDefinitionPath);
+        }
     }
 }

@@ -16,5 +16,18 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2023-12-20
  */
 public interface OaProcessService extends IService<Process> {
+
+    /**
+     * 审批管理列表
+     * @param pageParam
+     * @param processQueryVo
+     * @return
+     */
     IPage<ProcessVo> selectPage(Page<ProcessVo> pageParam, ProcessQueryVo processQueryVo);
+
+    /**
+     * 部署流程定义
+     * @param deployPath
+     */
+     void deployByZip(String deployPath);
 }
