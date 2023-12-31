@@ -5,7 +5,9 @@ import com.atguigu.common.jwt.JwtHelper;
 import com.atguigu.common.result.ResponseUtil;
 import com.atguigu.common.result.Result;
 import com.atguigu.common.result.ResultCodeEnum;
+import com.atguigu.common.utils.IpUtil;
 import com.atguigu.security.custom.CustomUser;
+import com.atguigu.security.service.LoginLogService;
 import com.atguigu.vo.system.LoginVo;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,16 +29,19 @@ import java.util.Map;
 
 public class TokenLoginFilter extends UsernamePasswordAuthenticationFilter {
 
-
+    private LoginLogService loginLogService;
     private StringRedisTemplate stringRedisTemplate;
 
     // 构造方法
-    public TokenLoginFilter(AuthenticationManager authenticationManager, StringRedisTemplate stringRedisTemplate) {
+    public TokenLoginFilter(AuthenticationManager authenticationManager,
+                            StringRedisTemplate stringRedisTemplate,
+                            LoginLogService loginLogService) {
         this.setAuthenticationManager(authenticationManager);
         this.setPostOnly(false);
         //指定登录接口及提交方式，可以指定任意路径
         this.setRequiresAuthenticationRequestMatcher(new AntPathRequestMatcher("/admin/system/index/login", "POST"));
         this.stringRedisTemplate = stringRedisTemplate;
+        this.loginLogService = loginLogService;
     }
 
     // 登录认证
@@ -65,6 +70,9 @@ public class TokenLoginFilter extends UsernamePasswordAuthenticationFilter {
         // 获取当前用户权限数据，放到redis中，key：username，value：权限数据
         stringRedisTemplate.opsForValue().set(customUser.getUsername(), JSON.toJSONString(customUser.getAuthorities()));
 
+        // 记录登录日志
+        loginLogService.recordLoginLog(customUser.getUsername(), 1, IpUtil.getIpAddress(request),
+                "登录成功");
         Map<String, Object> map = new HashMap<>();
         map.put("token", token);
         ResponseUtil.out(response, Result.ok(map));
