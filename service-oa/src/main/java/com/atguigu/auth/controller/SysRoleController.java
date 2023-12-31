@@ -6,6 +6,8 @@ import com.atguigu.common.execption.GuiguException;
 import com.atguigu.common.result.Result;
 import com.atguigu.model.system.SysRole;
 import com.atguigu.model.system.SysUserRole;
+import com.atguigu.system.annotation.Log;
+import com.atguigu.system.enums.BusinessType;
 import com.atguigu.vo.system.AssginRoleVo;
 import com.atguigu.vo.system.SysRoleQueryVo;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -63,6 +65,7 @@ public class SysRoleController {
         return Result.ok(pageModel);
     }
 
+    @Log(title = "角色管理", businessType = BusinessType.INSERT)
     @PreAuthorize("hasAuthority('bnt.sysRole.add')")
     @ApiOperation(value = "添加角色")
     @PostMapping("save")
@@ -83,6 +86,7 @@ public class SysRoleController {
         return Result.ok(role);
     }
 
+    @Log(title = "角色管理", businessType = BusinessType.UPDATE)
     @PreAuthorize("hasAuthority('bnt.sysRole.update')")
     @ApiOperation(value = "修改角色")
     @PutMapping("update")
@@ -95,6 +99,7 @@ public class SysRoleController {
         }
     }
 
+    @Log(title = "角色管理", businessType = BusinessType.DELETE)
     @PreAuthorize("hasAuthority('bnt.sysRole.remove')")
     @ApiOperation(value = "删除角色")
     @DeleteMapping("remove/{id}")
@@ -113,6 +118,7 @@ public class SysRoleController {
         }
     }
 
+    @Log(title = "角色管理", businessType = BusinessType.DELETE)
     @PreAuthorize("hasAuthority('bnt.sysRole.remove')")
     @ApiOperation(value = "根据id列表删除")
     @DeleteMapping("batchRemove")
